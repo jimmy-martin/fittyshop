@@ -1,12 +1,12 @@
 import {
   auth,
-  createUserDocumentFromAuth,
   signInWithGooglePopup,
   signInWithGoogleRedirect,
 } from '../../utils/firebase/firebase.utils';
 import { getRedirectResult } from 'firebase/auth';
 import { useEffect } from 'react';
 
+import { createUserDocumentFromAuth } from '../../utils/firebase/firebase.methods';
 import SignUpForm from '../../components/sign-up-form/sign-up-form.component';
 
 const SignIn = () => {
@@ -17,7 +17,7 @@ const SignIn = () => {
       const response = await getRedirectResult(auth);
       if (response) {
         const { user } = response;
-        const userDocRef = await createUserDocumentFromAuth(user);
+        await createUserDocumentFromAuth(user);
       }
     },
     []
@@ -25,7 +25,7 @@ const SignIn = () => {
 
   const logGoogleUser = async () => {
     const { user } = await signInWithGooglePopup();
-    const userDocRef = await createUserDocumentFromAuth(user);
+    await createUserDocumentFromAuth(user);
   };
 
   return (
