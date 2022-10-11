@@ -8,8 +8,9 @@ import { useEffect } from 'react';
 
 import { createUserDocumentFromAuth } from '../../utils/firebase/firebase.methods';
 import SignUpForm from '../../components/sign-up-form/sign-up-form.component';
+import SignInForm from '../../components/sign-in-form/sign-in-form.component';
 
-const SignIn = () => {
+const Authentication = () => {
   useEffect(
     () => async () => {
       // auth correspond un peu comme à la mémoire
@@ -23,21 +24,17 @@ const SignIn = () => {
     []
   );
 
-  const logGoogleUser = async () => {
-    const { user } = await signInWithGooglePopup();
-    await createUserDocumentFromAuth(user);
-  };
-
   return (
     <div>
       <h1>Sign In Page</h1>
-      <button onClick={logGoogleUser}>Sign In with Google Popup</button>
       <button style={{ display: 'none' }} onClick={signInWithGoogleRedirect}>
         Sign In with Google Redirect
       </button>
+
+      <SignInForm />
       <SignUpForm />
     </div>
   );
 };
 
-export default SignIn;
+export default Authentication;
