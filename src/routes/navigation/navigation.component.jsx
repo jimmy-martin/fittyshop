@@ -3,16 +3,11 @@ import { Link, Outlet } from 'react-router-dom';
 
 import './navigation.styles.scss';
 import { ReactComponent as Logo } from '../../assets/crown.svg';
-import { UserContext } from '../../contexts/user.context';
 import { signOutUser } from '../../utils/firebase/firebase.methods';
+import { UserContext } from '../../contexts/user.context';
 
 const Navigation = () => {
-  const { currentUser, setCurrentUser } = useContext(UserContext);
-
-  const signOutHandler = async (event) => {
-    await signOutUser();
-    setCurrentUser(null);
-  };
+  const { currentUser } = useContext(UserContext);
 
   return (
     // On peut utiliser un Fragment au lieu d'une div
@@ -30,7 +25,7 @@ const Navigation = () => {
           {/* Si currentUser, alors un user est connecté
           donc on propose un lien de déconnexion et vice-versa */}
           {currentUser ? (
-            <span className="nav-link" onClick={signOutHandler}>
+            <span className="nav-link" onClick={signOutUser}>
               SIGN OUT
             </span>
           ) : (
