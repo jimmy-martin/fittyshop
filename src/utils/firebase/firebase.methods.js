@@ -4,9 +4,48 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from 'firebase/auth';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+  writeBatch,
+} from 'firebase/firestore';
 
 import { auth, db } from './firebase.utils';
+
+export const addCollectionAndDocuments = async (
+  collectionKey,
+  objectsToAdd,
+  field = 'title'
+) => {
+  const collectionRef = collection(db, collectionKey);
+  const batch = writeBatch(db);
+
+  objectsToAdd.forEach((object) => {
+    const docRef = doc(collectionRef, object[field].toLowerCase());
+    batch.set(docRef, object);
+  });
+
+  await batch.commit();
+  console.log('done');
+};
+
+export const getCategoriesAndDocuments = async () => {
+  const collectionref = collection(db, 'categories');
+  const myQuery = query(collectionref);
+  const querySnapshot = await getDocs(myQuery);
+
+  const categoryMap = querySnapshot.docs.reduce((accumulator, docSnapshot) => {
+    const { title, items } = docSnapshot.data();
+    accumulator[title.toLowerCase()] = items;
+    return accumulator;
+  }, {});
+
+  return categoryMap;
+};
 
 // Fonction qui permettra d'ajouter en bdd
 // l'utilisateur qui utilise le bouton de connexion via Google
