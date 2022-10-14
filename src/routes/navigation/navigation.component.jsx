@@ -1,8 +1,13 @@
 import { Fragment, useContext } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 
-import './navigation.styles.scss';
 import { CartContext } from '../../contexts/cart.context';
+import {
+  LogoContainer,
+  NavigationContainer,
+  NavLinks,
+  NavLink,
+} from './navigation.styles';
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 import { signOutUser } from '../../utils/firebase/firebase.methods';
 import { UserContext } from '../../contexts/user.context';
@@ -18,29 +23,25 @@ const Navigation = () => {
     // car cela permet de ne pas créer un élément html vide
     // Il ne sera pas réellement rendu sur notre application
     <Fragment>
-      <div className="navigation">
-        <Link to="/" className="logo-container">
+      <NavigationContainer>
+        <LogoContainer to="/">
           <Logo className="logo" />
-        </Link>
-        <div className="nav-links-container">
-          <Link to="/shop" className="nav-link">
-            SHOP
-          </Link>
+        </LogoContainer>
+        <NavLinks>
+          <NavLink to="/shop">SHOP</NavLink>
           {/* Si currentUser, alors un user est connecté
           donc on propose un lien de déconnexion et vice-versa */}
           {currentUser ? (
-            <span className="nav-link" onClick={signOutUser}>
+            <NavLink as="span" onClick={signOutUser}>
               SIGN OUT
-            </span>
+            </NavLink>
           ) : (
-            <Link to="/auth" className="nav-link">
-              SIGN IN
-            </Link>
+            <NavLink to="/auth">SIGN IN</NavLink>
           )}
           <CartIcon />
-        </div>
+        </NavLinks>
         {isCartOpen && <CartDropdown />}
-      </div>
+      </NavigationContainer>
       <Outlet />
     </Fragment>
   );

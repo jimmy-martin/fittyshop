@@ -2,11 +2,9 @@ import { useState } from 'react';
 
 import './sign-in-form.styles.scss';
 
-import {
-  signInAuthUserWithEmailAndPassword,
-} from '../../utils/firebase/firebase.methods';
+import { signInAuthUserWithEmailAndPassword } from '../../utils/firebase/firebase.methods';
 import { signInWithGooglePopup } from '../../utils/firebase/firebase.utils';
-import Button from '../button/button.component';
+import Button, { BUTTON_TYPES_CLASSES } from '../button/button.component';
 import FormInput from '../form-input/form-input.component';
 
 const defaultFormFields = {
@@ -80,7 +78,11 @@ const SignUpForm = () => {
 
         <div className="buttons-container">
           <Button type="submit">Sign In</Button>
-          <Button type="button" buttonType="google" onClick={signInWithGoogle}>
+          <Button
+            type="button"
+            buttonType={BUTTON_TYPES_CLASSES.google}
+            onClick={signInWithGoogle}
+          >
             Google Sign In
           </Button>
         </div>
