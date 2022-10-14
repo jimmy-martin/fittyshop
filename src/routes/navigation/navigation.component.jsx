@@ -2,6 +2,7 @@ import { Fragment, useContext } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { CartContext } from '../../contexts/cart.context';
+
 import {
   LogoContainer,
   NavigationContainer,
